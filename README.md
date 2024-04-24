@@ -1,7 +1,7 @@
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/assembly.jpg" alt="Logo" width="80" height="80">
+  <a href="https://github.com/fleizean/libasm">
+    <img src="images/assembly.svg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">libasm</h3>
