@@ -13,4 +13,11 @@
     <br />
     <a href="https://fleizean.medium.com/avengers-assembly-2ab010f82312">View My Medium</a>
   </p>
+
+  <p>https://www.youtube.com/watch?v=ZJp6Rmpt5ng&list=PLN_zl_ojC1zvC0B4yR-CQvIgbZ_ZFbHc3</p>
+  <p>http://www.csharpnedir.com/articles/read/?id=578</p>  
+  <p>https://www.emo.org.tr/ekler/d9b816ba072629f_ek.pdf</p>  
+  <p>http://eng.harran.edu.tr/~nbesli/RBT/80x86_Komut.pdf</p>  
+  <p>https://yassinebridi.github.io/asm-docs/asm_tutorial_01.html</p>  
+
 </div>
