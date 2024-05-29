@@ -9,7 +9,7 @@ int main(int ac, char **av)
 {
     if (ac != 3)
     {
-        printf(BRED "Usage: ./ft_strcpy \"dest\" \"src\"\n" reset);
+        printf(BRED "Usage: ./ft_strcpy [string] [string2]\n" reset);
         return 1;
     }
     

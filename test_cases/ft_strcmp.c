@@ -9,7 +9,7 @@ int main(int ac, char **av)
 {
     if (ac != 3)
     {
-        printf(BRED "Usage: ./ft_strcmp \"s1\" \"s2\"\n" reset);
+        printf(BRED "Usage: ./ft_strcmp [string] [string2]\n" reset);
         return 1;
     }
     

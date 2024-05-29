@@ -9,7 +9,7 @@ int main(int ac, char **av)
 {
     if (ac != 2)
     {
-        printf(BRED "Usage: ./ft_strlen \"string\"\n" reset);
+        printf(BRED "Usage: ./ft_strlen [string]\n" reset);
         return 1;
     }
     
