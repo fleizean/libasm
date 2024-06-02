@@ -9,13 +9,9 @@ _ft_write:
     ret
 
 _ft_error:
-    neg rax
-    push rbx
-    mov rbx, rax
+    push rax
     call ___error
-    mov [rax], rbx
-    pop rbx
+    pop rdx
+    mov [rax], rdx
     mov rax, -1
-    mov rsp, rbp
-    pop rbp
     ret
