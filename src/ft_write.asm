@@ -9,8 +9,13 @@ _ft_write:
     ret
 
 _ft_error:
-    mov rdi, rax           ; Hata numarasını rdi'ye aktar. (errnum, const char *msg)
-    mov rsi, rax           ; Hata numarasını rsi'ye aktar. (errnum, const char *msg)
-    call ___error          ; ___error işlevini çağır
-    mov rax, -1            ; Hata olduğunda -1 dön
+    neg rax
+    push rbx
+    mov rbx, rax
+    call ___error
+    mov [rax], rbx
+    pop rbx
+    mov rax, -1
+    mov rsp, rbp
+    pop rbp
     ret
