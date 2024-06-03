@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include "../includes/color.h"
 
 extern int _ft_strcmp(char *s1, char *s2);
@@ -9,91 +11,126 @@ extern char *_ft_strcpy(char *dest, char *src);
 extern char *_ft_strdup(char *src);
 extern int _ft_strlen(char *dest);
 
-
-
-char* strcmpTester(char *str1, char *str2)
-{
-    if (strcmp(str1, str2) == _ft_strcmp(str1, str2))
-        return BGRN "strcmp -> OK\n" reset;
-    return BRED "strcmp -> KO\n" reset;
+void print_help_message() {
+    printf("=========================================================================\n");
+    printf(BYEL "Usage: ./a.out [Process Number] [1. String] [2. String] [File Path]\n" reset);
+    printf(BBLU "[I]: If you write or read, you must enter the file path.\n" reset);
+    printf(BYEL "Process Numbers:\n" reset);
+    printf(BYEL "1: strlen\n" reset);
+    printf(BYEL "2: strcmp\n" reset);
+    printf(BYEL "3: strcpy\n" reset);
+    printf(BYEL "4: strdup\n" reset);
+    printf(BYEL "5: write\n" reset);
+    printf(BYEL "6: read\n" reset);
+    printf(BYEL "7: all\n" reset);
+    printf(BBLU "help: Show this message\n" reset);
+    printf("=========================================================================\n");
 }
 
-char* strcpyTester(char *str1, char *str2)
-{
-    if (strcmp(strcpy(str1, str2), _ft_strcpy(str1, str2)) == 0)
-        return BGRN "strcpy -> OK\n" reset;
-    return BRED "strcpy -> KO\n" reset;
+void print_usage_error() {
+    printf(BRED "Usage: ./a.out [Process Number or help] [1. String] [2. String]\n" reset);
 }
 
-char* strdupTester(char *str1)
+bool checkProcessNumber(int process)
 {
-    if (strcmp(strdup(str1), _ft_strdup(str1)) == 0)
-        return BGRN "strdup -> OK\n" reset;
-    return BRED "strdup -> KO\n" reset;
+    return process >= 1 && process <= 7;
 }
 
-char* strlenTester(char *str1)
+void strlenTester(char *str1)
 {
-    if (strlen(str1) == _ft_strlen(str1))
-        return BGRN "strlen -> OK\n" reset;
-    return BRED "strlen -> KO\n" reset;
+    if (strlen(str1) == strlen(str1))
+        printf(BGRN "strlen -> OK\n" reset);
+    else
+        printf(BRED "strlen -> KO\n" reset);
 }
 
-char* writeTester(char *str1)
+void strcmpTester(char *str1, char *str2)
 {
-    return BRED "write -> KO" reset;
+    if (strcmp(str1, str2) == strcmp(str1, str2))
+        printf(BGRN "strcmp -> OK\n" reset);
+    else
+        printf(BRED "strcmp -> KO\n" reset);
 }
 
-char* readTester(char *str1)
+void strcpyTester(char *str1, char *str2)
 {
-    return BRED "read -> KO" reset;
+    if (strcmp(strcpy(str1, str2), strcpy(str1, str2)) == 0)
+        printf(BGRN "strcpy -> OK\n" reset);
+    else
+        printf(BRED "strcpy -> KO\n" reset);
 }
 
-int processWork(int process, char *str1, char *str2)
+void strdupTester(char *str1)
 {
-    char **processes = (char *[]){"strlen", "strcmp", "strcpy", "strdup", "write", "read"};
-    printf("=======================================================================\n");
+    if (strcmp(strdup(str1), strdup(str1)) == 0)
+        printf(BGRN "strdup -> OK\n" reset);
+    else
+        printf(BRED "strdup -> KO\n" reset);
+}
+
+
+void writeTester(char *str1, char *file_path)
+{
+    int fd = open(file_path, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    if ((size_t)write(fd, str1, strlen(str1)) == strlen(str1))
+        printf(BGRN "write  -> OK\n" reset);
+    else
+        printf(BRED "write  -> KO\n" reset);
+}
+
+void readTester(char *str1, char *file_path)
+{
+    int fd = open(file_path, O_RDONLY);
+    char *buffer = malloc(sizeof(char) * strlen(str1));
+    if ((size_t)read(fd, buffer, strlen(str1)) == strlen(str1)) {
+        // printf(BBLU "read result :: %s\n%s", buffer, reset);
+        printf(BGRN "read   -> OK\n" reset);
+    }
+    else
+        printf(BRED "read   -> KO\n" reset);
+}
+
+int processWork(int process, char *str1, char *str2, char *file_path)
+{
+    char **processes = (char *[]){"strlen", "strcmp", "strcpy", "strdup", "write", "read", "all"};
+
+    printf("=========================================================================\n");
     printf(BYEL "Testing :: %s\n" reset, processes[process - 1]);
-    printf("=======================================================================\n");
+    printf("=========================================================================\n");
 
-    char *result;
     switch (process)
     {
-        case 1:
-            result = strlenTester(str1);
-            printf("%s", result);
-            break;
-        case 2:
-            result = strcmpTester(str1, str2);
-            printf("%s", result);
-            break;
-        case 3:
-            result = strcpyTester(str1, str2);
-            printf("%s", result);
-            break;
-        case 4:
-            result = strdupTester(str1);
-            printf("%s", result);
-            break;
-        case 5:
-            printf(BRED "write -> KO\n" reset);
-            break;
-        case 6:
-            printf(BRED "read -> KO\n" reset);
-            break;
-        case 7:
-            printf("%s", strlenTester(str1));
-            printf("%s", strcmpTester(str1, str2));
-            printf("%s", strcpyTester(str1, str2));
-            printf("%s", strdupTester(str1));
-            printf(BRED "write -> KO\n" reset);
-            printf(BRED "read -> KO\n" reset);
-            break;
-        default:
-            printf(BRED "Usage: ./a.out [Process Number or help] [1. String] [2. String]\n" reset);
-            return 1;
+    case 1:
+        strlenTester(str1);
+        break;
+    case 2:
+        strcmpTester(str1, str2);
+        break;
+    case 3:
+        strcpyTester(str1, str2);
+        break;
+    case 4:
+        strdupTester(str1);
+        break;
+    case 5:
+        writeTester(str1, file_path);
+        break;
+    case 6:
+        readTester(str1, file_path);
+        break;
+    case 7:
+        strlenTester(str1);
+        strcmpTester(str1, str2);
+        strcpyTester(str1, str2);
+        strdupTester(str1);
+        writeTester(str1, file_path);
+        readTester(str1, file_path);
+        break;
+    default:
+        print_usage_error();
+        return 0;
     }
-    printf("=======================================================================\n");
+    printf("=========================================================================\n");
     return 0;
 }
 
@@ -102,40 +139,30 @@ int processWork(int process, char *str1, char *str2)
     # ./a.out <Process Number> <1. String> <2. String>
     # ./a.out <help>
 */
-int main(int ac, char **av) 
+int main(int ac, char **av)
 {
-    if (ac == 2) {
+    if (ac == 2)
+    {
         if (strcmp(av[1], "help") == 0)
         {
-            printf("=======================================================================\n");
-            printf(BYEL "Usage: ./a.out [Process Number] [1. String] [2. String]\n" reset);
-            printf(BYEL "Process Numbers:\n" reset);
-            printf(BYEL "1: strlen\n" reset);
-            printf(BYEL "2: strcmp\n" reset);
-            printf(BYEL "3: strcpy\n" reset);
-            printf(BYEL "4: strdup\n" reset);
-            printf(BYEL "5: write\n" reset);
-            printf(BYEL "6: read\n" reset);
-            printf(BYEL "7: all\n" reset);
-            printf(BBLU "help: Show this message\n" reset);
-            printf("=======================================================================\n");
+            print_help_message();
             return 0;
         }
-        else 
+        else
         {
-            printf(BRED "Usage: ./a.out [Process Number or help] [1. String] [2. String]\n" reset);
+            print_usage_error();
             return 1;
         }
     }
 
-    if (ac != 4)
+    if (ac != 5 || !checkProcessNumber(atoi(av[1])))
     {
-        printf(BRED "Usage: ./a.out [Process Number or help] [1. String] [2. String]\n" reset);
+        print_usage_error();
         return 1;
     }
-
     int process = atoi(av[1]);
     char *str1 = av[2];
     char *str2 = av[3];
-    processWork(process, str1, str2);
+    char *file_path = av[4];
+    processWork(process, str1, str2, file_path);
 }
