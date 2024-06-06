@@ -2,28 +2,38 @@ section .text
 global _ft_strcpy
 
 _ft_strcpy:
-    ; char* verilerini tutan arkadaş
+    ; Giriş parametrelerini ve fonksiyon çerçevesini yönet
     push rbp
     mov rbp, rsp
-    mov rsi, rdi
-    mov rdi, rdx ; hedef adresi rdi'ye taşı
-    mov rdx, rsi
 
-.copy_loop:
-    ; al register'ı 8lik olarak bir veriyi okuyup rsi'ye atar yani tek tek karakter okuyoruz.
-    mov al, [rsi]
-    test al, al ; null byte kontrolü
-    je .copy_done
+    ; rdi: hedef (dest)
+    ; rsi: kaynak (src)
+    ; İlk argüman: rdi (dest)
+    ; İkinci argüman: rsi (src)
 
-    ; okunan karakteri hedef adresine kopyala
-    mov [rdi], al
+    ; Kaynak ve hedef işaretçilerini ayarla
+    mov rdx, rdi  ; rdx şimdi hedefi tutacak
 
-    inc rsi
-    inc rdi
-    jmp .copy_loop
+    .copy_loop:
+        ; Kaynağın sonuna geldik mi?
+        cmp byte [rsi], 0
+        je .copy_done
 
-.copy_done:
-    mov byte [rdi], 0 ; hedef adresin sonuna null byte ekle
+        ; Kaynağın her karakterini hedefe kopyala
+        mov al, [rsi] ; rsi 
+        mov [rdx], al
 
+        inc rsi
+        inc rdx
+        jmp .copy_loop
+
+    .copy_done:
+        ; Son null karakteri hedefe yaz
+        mov byte [rdx], 0
+
+    ; Hedef diziyi döndür
+    mov rax, rdi
+
+    ; Fonksiyon çerçevesini geri yükle ve çık
     pop rbp
     ret

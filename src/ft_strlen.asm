@@ -8,7 +8,7 @@ _loop:
     cmp byte[rdi + rax], 0
     je _return
     inc rax
-    jne _loop
+    jmp _loop
 
 _return:
     ret
