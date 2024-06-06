@@ -1,11 +1,11 @@
 NAME	=	libasm.a
 
-SRC		=	ft_read.asm \
-			ft_strcmp.asm \
-			ft_strcpy.asm \
-			ft_write.asm \
-			ft_strlen.asm \
-			ft_strdup.asm
+SRC		=	src/ft_read.asm \
+			src/ft_strcmp.asm \
+			src/ft_strcpy.asm \
+			src/ft_write.asm \
+			src/ft_strlen.asm \
+			src/ft_strdup.asm
 
 GREEN	= 	\033[38;5;46m
 WHITE	= 	\033[38;5;15m
@@ -26,14 +26,18 @@ $(NAME): $(SRC_O)
 	@echo "$(BLUE)Compilling: $(WHITE)$<"
 	@nasm -fmacho64 -o $@ $<
 
+test: $(NAME)
+	@gcc $(FLAGS) -L. -lasm test_cases/main.c -o test
+	@echo "$(GREEN)Compiled main.c with libasm.a$(WHITE)"
+
 clean:
 	@echo "$(RED)Cleaning all .asm files$(WHITE)"
 	@rm -f $(SRC_O)
 
 fclean: clean
 	@echo "$(RED)cleaning all .a files$(WHITE)"
-	@rm -f $(NAME)
+	@rm -f $(NAME) test
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re test
