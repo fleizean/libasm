@@ -28,7 +28,7 @@ $(NAME): $(SRC_O)
 	@nasm -f elf64 -o $@ $<
 
 test: $(NAME)
-	@gcc $(FLAGS) -L. -lasm test_cases/main.c -o test -lasm
+	@gcc $(FLAGS) -L. test_cases/main.c -o test -lasm -lc
 	@echo "$(GREEN)Compiled main.c with libasm.a$(WHITE)"
 
 run_test: test

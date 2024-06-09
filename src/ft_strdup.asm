@@ -1,5 +1,6 @@
 section .text
 extern malloc
+extern __errno_location
 extern _ft_strlen
 extern _ft_strcpy
 global _ft_strdup
@@ -13,9 +14,9 @@ _ft_strdup:
     inc rax             ; '\0' karakteri için bir byte daha yer ayırıyoruz
     mov rdi, rax        ; Yer ayırmak için ayrılan toplam bellek miktarını rdi'ye aktarıyoruz
 
-    call malloc         ; Bellek ayırma işlevini çağırıyoruz
+    call malloc wrt ..plt         ; Bellek ayırma işlevini çağırıyoruz
     test rax, rax       ; malloc başarılı oldu mu kontrol ediyoruz
-    jz _malloc_failed   ; Eğer malloc başarısız olursa, _malloc_failed etiketine atlıyoruz
+    jz _error   ; Eğer malloc başarısız olursa, _malloc_failed etiketine atlıyoruz
     pop rdi             ; Kaydediciyi geri alıyoruz
 
     mov rsi, rdi        ; _ft_strcpy fonksiyonuna kopyalanacak olan karakter dizisinin adresini rsi'ye aktarıyoruz
@@ -23,6 +24,10 @@ _ft_strdup:
     call _ft_strcpy     ; Karakter dizisini kopyalıyoruz
     ret
 
-_malloc_failed:
-    mov rax, -1         ; Hata durumunda -1 döndürülür
-    ret
+_error:
+	pop		rdi					; clean up stack if malloc fails
+	call	__errno_location wrt ..plt	; call the errno function
+	mov		rdx, 12			; 12 stands for ENOMEM
+	mov		[rax], rdx			; save errro code into rax
+	mov		rax, 0				; change rax to 0
+	ret							; NULL is returned when malloc fails
