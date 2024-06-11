@@ -9,6 +9,7 @@ _ft_write:
     ret
 
 _ft_error:
+    neg		rax	
     mov rdi, rax        ; Hata kodunu rdi'ye taşı
     call __errno_location wrt ..plt
     mov [rax], rdi      ; errno'yu ayarla

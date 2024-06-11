@@ -10,6 +10,8 @@
 #include <fcntl.h>
 #include "../includes/color.h"
 
+extern int errno;
+
 extern int _ft_strcmp(char *s1, char *s2);
 extern char *_ft_strcpy(char *dest, char *src);
 extern char *_ft_strdup(const char *s);
@@ -161,17 +163,20 @@ void readTester(char *file_path) {
     close(fd2);
 
     // Test 3: Yanlış dosya tanımlayıcısı ile okuma
-    int wrong_fd = -1; // Yanlış dosya tanımlayıcısı
-    char buf5[50], buf6[50];
+    int wrong_fd = open("", O_RDONLY); // Yanlış dosya tanımlayıcısı
+    char *buf5 = malloc(sizeof(char) * 50);
+	char *buf6 = malloc(sizeof(char) * 50);
     ssize_t val5 = read(wrong_fd, buf5, 40);
     ssize_t val6 = _ft_read(wrong_fd, buf6, 40);
     if (val5 == val6) {
-        printf(BGRN "read [wrong_fd test]   -> OK\n" reset);
+        printf(BGRN "read [wrong_fd test]   -> OK: %s\n" reset, strerror(errno));
     } else {
         printf(BRED "read [wrong_fd test]   -> KO: %s\n" reset, strerror(errno));
         printf(BBLU "[INF_TEST]:: read - %ld\n" reset, val5);
         printf(BBLU "[INF_TEST]:: _ft_read - %ld\n" reset, val6);
     }
+    free(buf5);
+	free(buf6);
 }
 
 int processWork(int process, char *str1, char *str2, char *file_path)

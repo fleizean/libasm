@@ -16,9 +16,10 @@ _ft_read:
     ret
 
 _set_errno:
+    neg		rax
     mov rdi, rax            ; Hata kodunu rdi'ye taşı
     call __errno_location wrt ..plt
-    mov [rax], rdx          ; errno = rdx
+    mov [rax], rdi          ; errno = rdx
     mov rax, -1             ; -1 döndür içindeki hata kodu kaybolmaz çünkü işaret ettiğini değiştirmiyoruz 
     ret
 
