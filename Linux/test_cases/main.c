@@ -170,6 +170,7 @@ void readTester(char *file_path) {
     ssize_t val6 = _ft_read(wrong_fd, buf6, 40);
     if (val5 == val6) {
         printf(BGRN "read [wrong_fd test]   -> OK: %s\n" reset, strerror(errno));
+        printf(BBLU "errornum: %d%s\n", errno, reset);
     } else {
         printf(BRED "read [wrong_fd test]   -> KO: %s\n" reset, strerror(errno));
         printf(BBLU "[INF_TEST]:: read - %ld\n" reset, val5);
