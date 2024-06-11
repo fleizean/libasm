@@ -5,32 +5,19 @@ global _ft_strcpy
 ; rsi: kaynak (src)
 ; İlk argüman: rdi (dest)
 ; İkinci argüman: rsi (src)
+; Geri dönüş değeri: rdi (dest) in rax'e kopyalanmış hali
 
 _ft_strcpy:
-    ; Kaynak ve hedef işaretçilerini ayarla
-    mov rdx, rdi  ; rdx şimdi hedefi (dest) tutacak
+    mov rax, 0
+    mov rbx, 0
 
-    .copy_loop:
-        ; Kaynağın sonuna geldik mi?
-        cmp byte [rsi], 0
-        je .copy_done
+    .loop:
+        mov al, [rsi + rbx]
+        mov [rdi + rbx], al
+        inc rbx
+        cmp al, 0
+        jne .loop
 
-        ; Kaynağın her karakterini hedefe kopyala
-        mov al, [rsi] ; rsi 
-        mov [rdx], al
-
-        ; iki farklı erişim belirteci kullanabilirdik
-        ; biri bizim yaptığımız ikincisi ise şu;
-        ; nov al, byte[rdi + rcx]
-
-        inc rsi
-        inc rdx
-        jmp .copy_loop
-
-    .copy_done:
-        ; Son null karakteri hedefe yaz
-        mov byte [rdx], 0
-
-    ; Hedef diziyi döndür
-    mov rax, rdi
-    ret
+    .return:
+        mov rax, rdi
+        ret

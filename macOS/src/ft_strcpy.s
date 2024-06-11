@@ -8,28 +8,16 @@ global _ft_strcpy
 ; Geri dönüş değeri: rdi (dest) in rax'e kopyalanmış hali
 
 _ft_strcpy:
-    
+    mov rax, 0
+    mov rbx, 0
 
-    ; Kaynak ve hedef işaretçilerini ayarla
-    mov rdx, rdi  ; rdx şimdi hedefi tutacak
+    .loop:
+        mov al, [rsi + rbx]
+        mov [rdi + rbx], al
+        inc rbx
+        cmp al, 0
+        jne .loop
 
-    .copy_loop:
-        ; Kaynağın sonuna geldik mi?
-        cmp byte [rsi], 0
-        je .copy_done
-
-        ; Kaynağın her karakterini hedefe kopyala
-        mov al, [rsi] ; rsi 
-        mov [rdx], al
-
-        inc rsi
-        inc rdx
-        jmp .copy_loop
-
-    .copy_done:
-        ; Son null karakteri hedefe yaz
-        mov byte [rdx], 0
-
-    ; Hedef diziyi döndür
-    mov rax, rdi
-    ret
+    .return:
+        mov rax, rdi
+        ret

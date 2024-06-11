@@ -8,15 +8,19 @@ global _ft_strdup
 ; void* malloc(size_t size);
 ; malloc değer olarak bir size istediği için rdi, rax işlemimiz önemli ayrıca rdi'ye atma sebebimiz ilk argümanı destion olması yüzünden
 
+; char* ft_strdup(const char *s);
+; rdi = s
+; return value: rax
+
 _ft_strdup:
-    push rdi            ; Kaydediciyi kaybetmemek için argümanları kaydediyoruz
+    push rdi            ; ft_strlen fonksiyonunu çağırmadan önce rdi'yi kaydediyoruz
     call _ft_strlen     ; Kaydediciyi kaybetmemek için argümanları kaydediyoruz
     inc rax             ; '\0' karakteri için bir byte daha yer ayırıyoruz
     mov rdi, rax        ; Yer ayırmak için ayrılan toplam bellek miktarını rdi'ye aktarıyoruz
 
     call malloc
     test rax, rax       ; malloc başarılı oldu mu kontrol ediyoruz
-    jz _error   ; Eğer malloc başarısız olursa, _malloc_failed etiketine atlıyoruz
+    jz _error           ; Eğer malloc başarısız olursa, _malloc_failed etiketine atlıyoruz
     pop rdi             ; Kaydediciyi geri alıyoruz
 
     mov rsi, rdi        ; _ft_strcpy fonksiyonuna kopyalanacak olan karakter dizisinin adresini rsi'ye aktarıyoruz

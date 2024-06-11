@@ -1,6 +1,10 @@
 section .text
 global _ft_strcmp
 
+; int ft_strcmp(const char *s1, const char *s2);
+; rdi = s1, rsi = s2
+; return value: raxsssw
+
 _ft_strcmp:
     mov rax, 0
     mov rdx, 0

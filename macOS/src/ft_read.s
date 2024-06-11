@@ -16,9 +16,9 @@ _ft_read:
     ret
 
 _set_errno:
-    mov rdi, rax            ; Hata kodunu rdi'ye taşı
+    mov rdi, rax                    ; Hata kodunu rdi'ye taşı
     call
-    mov [rax], rdx          ; errno = rdx
-    mov rax, -1             ; -1 döndür içindeki hata kodu kaybolmaz çünkü işaret ettiğini değiştirmiyoruz 
+    mov [rax], rdx                  ; errno = rdx
+    mov rax, -1                     ; -1 döndür içindeki hata kodu kaybolmaz çünkü işaret ettiğini değiştirmiyoruz 
     ret
 
