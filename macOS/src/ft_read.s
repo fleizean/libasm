@@ -1,4 +1,4 @@
-extern ___error
+extern __errno_location
 section .text
 global _ft_read
 
@@ -7,8 +7,8 @@ global _ft_read
 ; 8 kezden fazla kullanıldığında geri dönüş adresi kaybolur. geri dönüş değeri bir adrestir her bir adres alanında bizim yazdığımız fonksiyonlar vardır.
 ; eğer iç içe 8 kez fazla kullanırsak program çöker.
 
-_ft_read:    
-    mov rax, 0x02000003     ; syscall okuma kodu (3)
+_ft_read:
+    mov rax, 0x02000003              ; SYS_read | in Linux = 0 | in Macos = 0x02000003
     syscall
 
     test rax, rax
@@ -16,9 +16,8 @@ _ft_read:
     ret
 
 _set_errno:
-    push rax
-    call ___error
-    pop rdx                 ; rdx = rax
+    mov rdi, rax            ; Hata kodunu rdi'ye taşı
+    call
     mov [rax], rdx          ; errno = rdx
     mov rax, -1             ; -1 döndür içindeki hata kodu kaybolmaz çünkü işaret ettiğini değiştirmiyoruz 
     ret
