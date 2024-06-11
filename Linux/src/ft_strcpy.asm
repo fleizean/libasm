@@ -1,18 +1,14 @@
 section .text
 global _ft_strcpy
 
+; rdi: hedef (dest)
+; rsi: kaynak (src)
+; İlk argüman: rdi (dest)
+; İkinci argüman: rsi (src)
+
 _ft_strcpy:
-    ; Giriş parametrelerini ve fonksiyon çerçevesini yönet
-    push rbp
-    mov rbp, rsp
-
-    ; rdi: hedef (dest)
-    ; rsi: kaynak (src)
-    ; İlk argüman: rdi (dest)
-    ; İkinci argüman: rsi (src)
-
     ; Kaynak ve hedef işaretçilerini ayarla
-    mov rdx, rdi  ; rdx şimdi hedefi tutacak
+    mov rdx, rdi  ; rdx şimdi hedefi (dest) tutacak
 
     .copy_loop:
         ; Kaynağın sonuna geldik mi?
@@ -22,6 +18,10 @@ _ft_strcpy:
         ; Kaynağın her karakterini hedefe kopyala
         mov al, [rsi] ; rsi 
         mov [rdx], al
+
+        ; iki farklı erişim belirteci kullanabilirdik
+        ; biri bizim yaptığımız ikincisi ise şu;
+        ; nov al, byte[rdi + rcx]
 
         inc rsi
         inc rdx
@@ -33,7 +33,4 @@ _ft_strcpy:
 
     ; Hedef diziyi döndür
     mov rax, rdi
-
-    ; Fonksiyon çerçevesini geri yükle ve çık
-    pop rbp
     ret
