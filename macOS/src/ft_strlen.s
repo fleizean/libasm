@@ -1,9 +1,7 @@
 section .text
 global _ft_strlen
 
-; size_t ft_strlen(const char *s);
-; rdi = s
-; return value: rax
+; size_t strlen(const char *s); (rdi = s)
 
 _ft_strlen:
     mov rax, 0

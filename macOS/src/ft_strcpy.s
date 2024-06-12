@@ -1,6 +1,7 @@
 section .text
 global _ft_strcpy
 
+; char *ft_strcpy(char *dest, const char *src);
 ; rdi: hedef (dest)
 ; rsi: kaynak (src)
 ; İlk argüman: rdi (dest)

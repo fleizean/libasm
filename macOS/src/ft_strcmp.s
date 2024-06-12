@@ -2,8 +2,9 @@ section .text
 global _ft_strcmp
 
 ; int ft_strcmp(const char *s1, const char *s2);
-; rdi = s1, rsi = s2
-; return value: raxsssw
+; (rdi = s1)
+; (rsi = s2)
+; return value = int (rax)
 
 _ft_strcmp:
     mov rax, 0
