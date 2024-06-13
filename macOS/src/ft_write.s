@@ -1,4 +1,4 @@
-extern      __errno_location	; int ___error(int errnum, const char *msg);
+extern      ___error	; int ___error(int errnum, const char *msg);
 section     .text
 global      _ft_write
 
@@ -15,8 +15,9 @@ _ft_write:
     ret
 
 _ft_error:
-    mov rdi, rax        ; Hata kodunu rdi'ye taşı
-    call __errno_location
-    mov [rax], rdi      ; errno'yu ayarla
-    mov rax, -1         ; rax'i -1 yap
+    push rax
+    call ___error
+    pop rdx
+    mov [rax], rdx
+    mov rax, -1
     ret

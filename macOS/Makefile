@@ -1,18 +1,19 @@
 NAME    =   libasm.a
 
-SRC     =   src/ft_read.asm \
-            src/ft_strcmp.asm \
-            src/ft_strcpy.asm \
-            src/ft_write.asm \
-            src/ft_strlen.asm \
-            src/ft_strdup.asm
+SRC     =   src/ft_read.s \
+            src/ft_strcmp.s \
+            src/ft_strcpy.s \
+            src/ft_write.s \
+            src/ft_strlen.s \
+            src/ft_strdup.s
 
 GREEN   =   \033[38;5;46m
 WHITE   =   \033[38;5;15m
+GREY    =   \033[38;5;8m
+ORANGE  =   \033[38;5;202m
 RED     =   \033[38;5;160m
-BLUE    =   \033[0;34m
 
-SRC_O   =   $(SRC:.asm=.o)
+SRC_O   =   $(SRC:.s=.o)
 
 FLAGS   =   -Wall -Wextra -Werror
 
@@ -23,17 +24,13 @@ $(NAME): $(SRC_O)
 	@ar rc $(NAME) $(SRC_O)
 	@ranlib $(NAME)
 
-%.o: %.asm
-	@echo "$(BLUE)Compiling: $(WHITE)$<"
-	@nasm -f macho64 -o $@ $<
+%.o: %.s
+	@echo "$(GREY)Compiling: $(WHITE)$<"
+	@nasm -fmacho64 -o $@ $<
 
 test: $(NAME)
-	@gcc $(FLAGS) -L. test_cases/main.c -o test -lasm -lc
+	@gcc $(FLAGS) -L. test_cases/main.c -o test -lasm -lc $(SRC_O)
 	@echo "$(GREEN)Compiled main.c with libasm.a$(WHITE)"
-
-run_test: test
-	@echo "$(GREEN)Running test executable$(WHITE)"
-	@./test "help"
 
 clean:
 	@echo "$(RED)Cleaning all .o files$(WHITE)"
@@ -45,4 +42,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re test run_test
+.PHONY: all clean fclean re test

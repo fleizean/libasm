@@ -1,4 +1,4 @@
-extern __errno_location
+extern ___error
 section .text
 global _ft_read
 
@@ -11,15 +11,14 @@ global _ft_read
 _ft_read:
     mov rax, 0x02000003              ; SYS_read | in Linux = 0 | in Macos = 0x02000003
     syscall
-
-    test rax, rax
     jc _set_errno
     ret
 
 _set_errno:
-    mov rdi, rax            ; Hata kodunu rdi'ye taşı
-    call
-    mov [rax], rdx          ; errno = rdx
-    mov rax, -1             ; -1 döndür içindeki hata kodu kaybolmaz çünkü işaret ettiğini değiştirmiyoruz 
+    push rax
+    call ___error
+    pop rdx
+    mov [rax], rdx
+    mov rax, -1
     ret
 

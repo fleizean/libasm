@@ -1,6 +1,6 @@
 section .text
-extern malloc
-extern __errno_location
+extern _malloc
+extern ___error
 extern _ft_strlen
 extern _ft_strcpy
 global _ft_strdup
@@ -17,7 +17,7 @@ _ft_strdup:
     inc rax
     mov rdi, rax
 
-    call malloc
+    call _malloc
     test rax, rax               ; malloc sonucu 0 mı değil mi kontrol ediyoruz
                                 ; ek olarak cmp rax, 0 işlemi de yapılabilirdi
     jz _error                   ; Eğer malloc başarısız olursa, _error etiketine gidiyoruz
@@ -30,7 +30,7 @@ _ft_strdup:
 
 _error:
 	pop		rdi					; clean up stack if malloc fails
-	call	__errno_location
+	call	___error
 	mov		rdx, 12			    ; 12 stands for ENOMEM
 	mov		[rax], rdx			; save errro code into rax
 	mov		rax, 0				; change rax to 0
