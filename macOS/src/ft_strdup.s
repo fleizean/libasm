@@ -12,7 +12,7 @@ global _ft_strdup
 ; malloc değer olarak bir size istediği için rdi, rax işlemimiz önemli ayrıca rdi'ye atma sebebimiz ilk argümanı destion olması yüzünden
 
 _ft_strdup:
-    push rdi
+    push rdi                    ; kaydedicinin değerini korumak için
     call _ft_strlen
     inc rax
     mov rdi, rax
@@ -21,7 +21,7 @@ _ft_strdup:
     test rax, rax               ; malloc sonucu 0 mı değil mi kontrol ediyoruz
                                 ; ek olarak cmp rax, 0 işlemi de yapılabilirdi
     jz _error                   ; Eğer malloc başarısız olursa, _error etiketine gidiyoruz
-    pop rdi                     ; Kaydediciyi geri alıyoruz ( sıfırlandı )
+    pop rdi
 
     mov rsi, rdi                ; _ft_strcpy fonksiyonuna kopyalanacak olan karakter dizisinin adresini rsi'ye aktarıyoruz
     mov rdi, rax                ; _ft_strcpy fonksiyonuna kopyalanacak olan bellek bloğunun adresini rdi'ye aktarıyoruz

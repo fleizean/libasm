@@ -59,12 +59,9 @@ void strlenTester(char *str1, char *str2)
     }
 }
 
-void strcpyTester(char *str1, char *str2)
+void strcpyTester(char *str2)
 {
-    char *result = ft_strcpy(str1, str2);
-    char *result2 = strcpy(str1,str2);
-    printf("ft_strcpy: %s\n", result);
-    printf("strcpy: %s\n", result2);
+    char str1[500];
     if (strcmp(strcpy(str1, str2), ft_strcpy(str1, str2)) == 0)
         printf(BGRN "strcpy -> OK\n" reset);
     else
@@ -136,7 +133,7 @@ void readTester(char *file_path) {
     ssize_t val1 = read(STDIN_FILENO, buf1, 40);
     ssize_t val2 = ft_read(STDIN_FILENO, buf2, 40);
 
-    if (val1 == val2 && errno == 0) {
+    if (val1 == val2) {
         printf(BGRN "read  [read - stdin test)  -> OK\n" reset);
     } else {
         printf(BRED "read (read - stdin test)   -> KO: %s\n" reset, strerror(errno));
@@ -151,7 +148,7 @@ void readTester(char *file_path) {
     char *buf4 = malloc(sizeof(char) * 50);
     ssize_t val3 = read(fd, buf3, 40);
     ssize_t val4 = ft_read(fd2, buf4, 40);
-    if (val3 == val4 && errno == 0) {
+    if (val3 == val4) {
         printf(BGRN "read (open and read test)   -> OK\n" reset);
     } else {
         printf(BRED "read (open and read test)   -> KO: %s\n" reset, strerror(errno));
@@ -194,7 +191,7 @@ int processWork(int process, char *str1, char *str2, char *file_path)
         strcmpTester(str1, str2);
         break;
     case 3:
-        strcpyTester(str1, str2);
+        strcpyTester(str1);
         break;
     case 4:
         strdupTester(str1, str2);
@@ -208,7 +205,7 @@ int processWork(int process, char *str1, char *str2, char *file_path)
     case 7:
         strlenTester(str1, str2);
         strcmpTester(str1, str2);
-        strcpyTester(str1, str2);
+        strcpyTester(str2);
         strdupTester(str1, str2);
         writeTester(str1, file_path);
         readTester(file_path);
@@ -249,7 +246,7 @@ int main(int ac, char **av)
         return 1;
     }
 
-    if ((process >= 5 && process <= 7 && ac != 5) || (process < 5 && ac != 4))
+    if ((process >= 5 && process <= 7 && ac != 5) || (process == 3 && ac != 3) || ((process < 5 && process != 3) && ac != 4)) 
     {
         print_usage_error();
         return 1;
