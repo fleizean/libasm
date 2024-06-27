@@ -1,5 +1,5 @@
-section .text
-global _ft_strcmp
+section		.text
+global		_ft_strcmp
 
 ; int ft_strcmp(const char *s1, const char *s2);
 ; (rdi = s1)
@@ -7,29 +7,21 @@ global _ft_strcmp
 ; return value = int (rax)
 
 _ft_strcmp:
-    mov rax, 0
-    mov rdx, 0
-    mov rcx, 0
+	mov		rax, 0
+	mov		rdx, 0
+	mov		rcx, -1
 
-_checker:
-    mov al, byte[rdi + rcx]
-    mov dl, byte[rsi + rcx]
+_check:
+	inc		rcx
+	mov		al, byte[rdi + rcx]
+	mov		dl, byte[rsi + rcx]
+	cmp		al, 0
+	je		_return
+	cmp		dl, 0
+	je		_return
+	cmp		al, dl
+	je		_check
 
-    cmp al, 0           ; al == rax
-    je _end
-    cmp dl, 0           ; dl == rdx
-    je _end
-    cmp al, dl
-    jne _error_occurred
-
-    inc rcx
-    jmp _checker
-
-_error_occurred:
-    sub rax, rdx        ; rax = rax - rdx || al - dl (hexadecimal)
-    ret                 
-    
-_end:
-    mov rax, 0          ; rax = 0
-    ret
-
+_return:
+	sub		rax, rdx
+	ret
